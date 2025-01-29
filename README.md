@@ -18,3 +18,5 @@ This application is made of two parts:
 * backend (API)
     - uses the [MariaDB Node.js Connector](https://github.com/mariadb-corporation/mariadb-connector-nodejs) to connect to MariaDB.
     - is a Node.js project located in the [backend](src/backend) folder.
+
+    Test
