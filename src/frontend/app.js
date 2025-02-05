@@ -1,4 +1,4 @@
-const apiEndpoint = "http://52.146.148.2:80";
+const apiEndpoint = "http://52.146.148.2:8080/api/tasks";
 
 $(document).ready(function () {
   // Charger les tâches au démarrage
