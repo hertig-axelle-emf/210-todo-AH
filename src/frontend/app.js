@@ -1,4 +1,4 @@
-const apiEndpoint = "http://52.146.148.2:8080/api/tasks";
+const apiEndpoint = "https://gabrielbeerbackend2.purplecliff-0b6c4c14.westus2.azurecontainerapps.io/api/tasks";
 
 $(document).ready(function () {
   // Charger les tâches au démarrage
