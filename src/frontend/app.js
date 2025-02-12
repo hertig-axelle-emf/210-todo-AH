@@ -1,4 +1,4 @@
-const apiEndpoint = "https://https://container-app-axellehertig.internal.prouddesert-27a79311.northeurope.azurecontainerapps.io/api/tasks";
+const apiEndpoint = "https://container-axellehertig.nicemushroom-2cb38eef.northeurope.azurecontainerapps.io/api/tasks";
 
 $(document).ready(function () {
   // Charger les tâches au démarrage
