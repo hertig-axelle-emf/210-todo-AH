@@ -71,9 +71,6 @@ jobs:
           uploadArtifacts: true # Enregistrer les résultats comme artefacts
           temporaryPublicStorage: true # Héberger temporairement le rapport Lighthouse
           configPath: './lighthouserc.json'
-          assertions: |
-            categories:accessibility: ["error", { "minScore": 0.9 }]
-            categories:performance: ["error", { "minScore": 0.9 }]
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
