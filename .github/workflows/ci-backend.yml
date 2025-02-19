@@ -33,7 +33,7 @@ jobs:
 
       # Étape 3: Build de l'image Docker avec le bon tag
       - name: Build Docker image
-        run: docker build -t todo-app -t ${{ env.REGISTRY_NAME }}/${{ env.REPOSITORY_PATH }}:AH -f ./src/backend/Dockerfile ./src/backend
+        run: docker build -t todo-app -t ${{ env.REGISTRY_NAME }}/${{ env.REPOSITORY_PATH }}:AH -f ./src/backend/DockerFile ./src/backend
 
 
       # Étape 4: Connexion à la registry Docker avec les secrets
@@ -47,5 +47,5 @@ jobs:
       - name: Build Docker image
         run: |
           cd ./src/backend
-          docker build -t todo-app -t ${{ env.REGISTRY_NAME }}/${{ env.REPOSITORY_PATH }}:AH -f Dockerfile .
+          docker build -t todo-app -t ${{ env.REGISTRY_NAME }}/${{ env.REPOSITORY_PATH }}:AH -f DockerFile .
 
