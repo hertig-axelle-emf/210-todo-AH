@@ -36,14 +36,12 @@ jobs:
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
 
-      - name: Get Id Token
-        uses: actions/github-script@v6
+      - name: Get GitHub OIDC Token
         id: idtoken
+        uses: actions/github-script@v6
         with:
           script: |
-            const token = await github.rest.actions.createInstallationsToken({
-              installation_id: context.payload.installation.id
-            });
+            const token = await github.rest.actions.createAccessToken();
             return token.token;
           result-encoding: string
 
