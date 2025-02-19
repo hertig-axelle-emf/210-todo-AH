@@ -44,5 +44,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # Étape 5: Pousser l'image vers la registry
-      - name: Push Docker image
-        run: docker push ${{ env.REGISTRY_NAME }}/${{ env.REPOSITORY_PATH }}:AH
+      - name: Build Docker image
+        run: |
+          cd ./src/backend
+          docker build -t todo-app -t ${{ env.REGISTRY_NAME }}/${{ env.REPOSITORY_PATH }}:AH -f Dockerfile .
+
