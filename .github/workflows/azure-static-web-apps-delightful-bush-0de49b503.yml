@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     permissions:
-       id-token: write
-       contents: read
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v3
         with:
@@ -31,7 +31,7 @@ jobs:
           else
             echo "Erreur : index.html n'existe pas!"
             exit 1
-          fi     
+          fi
 
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
@@ -40,10 +40,10 @@ jobs:
         uses: actions/github-script@v6
         id: idtoken
         with:
-           script: |
-               const coredemo = require('@actions/core')
-               return await coredemo.getIDToken()
-           result-encoding: string
+          script: |
+            const core = require('@actions/core')
+            return await core.getIDToken()
+          result-encoding: string
 
       - name: Build And Deploy
         id: builddeploy
@@ -51,9 +51,9 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_BUSH_0DE49B503 }}
           action: "upload"
-          app_location: "src/frontend" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "." # Built app content directory - optional
+          app_location: "src/frontend"  # App source code path
+          api_location: ""  # API source code path - optional
+          output_location: "."  # Built app content directory - optional
           github_id_token: ${{ steps.idtoken.outputs.result }}
 
   lighthouse:
@@ -63,13 +63,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Audit URLs using Lighthouse
+      - name: Run Lighthouse CI with Assertions
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             https://todoapp.axellehertig.emf-informatique.ch
-          uploadArtifacts: true # Enregistrer les résultats comme artefacts
-          temporaryPublicStorage: true # Héberger temporairement le rapport Lighthouse
+          uploadArtifacts: true  # Enregistrer les résultats comme artefacts
+          temporaryPublicStorage: true  # Héberger temporairement le rapport Lighthouse
           assertions: |
             categories:accessibility: ["error", { "minScore": 0.8 }]
             categories:performance: ["error", { "minScore": 0.8 }]
