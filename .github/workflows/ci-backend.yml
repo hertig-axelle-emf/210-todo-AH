@@ -26,11 +26,15 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: "1.20"
+      # verification permissions
+      - name: Debug: List backend directory
+        run: ls -l src/backend
+
 
       # Etape 3: Aller dans le dossier backend et construire l'image Docker
       - name: Build Docker image
-        working-directory: src/backend
-        run: docker build -t todo-app .
+        run: docker build -t todo-app ./src/backend
+
 
 
       # Etape 4: Connexion à la registry Docker avec les secrets
