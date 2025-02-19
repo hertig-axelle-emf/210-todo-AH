@@ -72,8 +72,8 @@ jobs:
           temporaryPublicStorage: true # Héberger temporairement le rapport Lighthouse
           budgetPath: ./budget.json  # Le chemin du fichier budget.json
           assertions: |
-            performance: ["error", { "minScore": 0.7 }]
-            accessibility: ["error", { "minScore": 0.9 }]
+            categories:performance: ["error", { "minScore": 0.7 }]
+            categoriesaccessibility: ["error", { "minScore": 0.9 }]
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
