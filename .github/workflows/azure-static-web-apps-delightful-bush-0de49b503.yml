@@ -41,8 +41,10 @@ jobs:
         id: idtoken
         with:
           script: |
-            const core = require('@actions/core')
-            return await core.getIDToken()
+            const token = await github.rest.actions.createInstallationsToken({
+              installation_id: context.payload.installation.id
+            });
+            return token.token;
           result-encoding: string
 
       - name: Build And Deploy
