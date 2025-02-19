@@ -22,6 +22,15 @@ jobs:
         with:
           submodules: true
           lfs: false
+          ######index cerification
+       - name: Check index.html
+        run: |
+          if [ -f src/frontend/index.html ]; then
+            echo "Le fichier index.html existe"
+          else
+            echo "Erreur : index.html nexiste pas!"
+            exit 1
+          fi     
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
       - name: Get Id Token
