@@ -26,15 +26,20 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: "1.20"
-      # verification permissions
+      # Étape de debug pour voir si Dockerfile est bien présent
       - name: Debug: List backend directory
-        run: ls -l src/backend
+        run: ls -lah src/backend
+
+      - name: Debug: Show Dockerfile content
+        run: cat src/backend/Dockerfile
+
 
 
       # Etape 3: Aller dans le dossier backend et construire l'image Docker
       - name: Build Docker image
-        run: docker build -t todo-app ./src/backend
-
+        working-directory: src/backend
+        run: docker build -t todo-app .
+  
 
 
       # Etape 4: Connexion à la registry Docker avec les secrets
