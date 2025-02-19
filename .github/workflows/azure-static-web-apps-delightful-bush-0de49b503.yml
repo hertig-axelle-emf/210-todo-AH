@@ -68,7 +68,6 @@ jobs:
         with:
           urls: |
             https://todoapp.axellehertig.emf-informatique.ch
-          budgetPath: ./budget.json # Vérifier les budgets de performance
           uploadArtifacts: true # Enregistrer les résultats comme artefacts
           temporaryPublicStorage: true # Héberger temporairement le rapport Lighthouse
           assertions: |
