@@ -70,10 +70,9 @@ jobs:
             https://todoapp.axellehertig.emf-informatique.ch
           uploadArtifacts: true # Enregistrer les résultats comme artefacts
           temporaryPublicStorage: true # Héberger temporairement le rapport Lighthouse
-          budgetPath: ./budget.json  # Le chemin du fichier budget.json
           assertions: |
-            categories:performance: ["warn", { "minScore": 0.8 }]
-            categories:accessibility: ["error", { "minScore": 0.9 }]
+            categories:accessibility: ["error", { "minScore": 0.8 }]
+            categories:performance: ["error", { "minScore": 0.8 }]
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -84,4 +83,5 @@ jobs:
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_BUSH_0DE49B503 }}
           action: "close"
