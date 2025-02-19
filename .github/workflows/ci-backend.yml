@@ -20,6 +20,8 @@ jobs:
     steps:
       # Etape 1: Vérification du code
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Etape 2: Configuration de Go
       - name: Set up Go
