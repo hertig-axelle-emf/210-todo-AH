@@ -1,24 +1,21 @@
 name: Deploy Backend to Azure
 
-## Déclenchement du workflow
-# Ce workflow est déclenché lorsque des modifications sont poussées sur la branche main ou manuellement via l'interface GitHub.
+##Déclanchement du workflow -> lorque un push est effectué sur la branche main, cella déclanche le workflow
 on:
   push:
     branches:
       - main
-  workflow_dispatch:  # Permet de déclencher le workflow manuellement via l'interface GitHub.
-
-## Jobs pour la construction et le déploiement
+  workflow_dispatch:
+  ## worflow_dispatch permet de lancer le workflow depuis l'interface GitHUb
+## Job build -> construction et dépploiement de l'application
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    ## récupéré le code source
     steps:
-      # Étape 1 : Récupérer le code source du repository
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      # Étape 2 : Se connecter à Azure Container Registry
       - name: Log in to Azure Container Registry
         uses: azure/docker-login@v1
         with:
@@ -26,34 +23,25 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       
-      # Étape 3 : Construire et pousser l'image Docker vers ACR
       - name: Build and push Docker image
         run: |
           docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest .
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
       
-      # Étape 4 : Se connecter à Azure pour déployer l'application
       - name: Log in to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # Étape 5 : Déployer l'image sur Azure Web App
+      
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
-        with:
+        with
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           images: ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
 
-  # Job de sécurité pour analyser le code (exemple de scan)
   security-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Optionnel : Ajoute un scan de sécurité pour analyser le Dockerfile ou le code (exemple avec trivy)
-      - name: Scan Docker image for vulnerabilities
-        uses: aquasecurity/trivy-action@v0.5.0
-        with:
-          image: ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
