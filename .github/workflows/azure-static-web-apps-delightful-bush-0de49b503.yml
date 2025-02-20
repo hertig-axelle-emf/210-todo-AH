@@ -1,0 +1,84 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      # Vérification de l'existence de index.html
+      - name: Check index.html
+        run: |
+          if [ -f src/frontend/index.html ]; then
+            echo "Le fichier index.html existe"
+          else
+            echo "Erreur : index.html n'existe pas!"
+            exit 1
+          fi
+
+      - name: Install OIDC Client from Core Package
+        run: npm install @actions/core@1.6.0 @actions/http-client
+
+      - name: Get GitHub OIDC Token
+        id: idtoken
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const token = await github.rest.actions.createAccessToken();
+            return token.token;
+          result-encoding: string
+
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_BUSH_0DE49B503 }}
+          action: "upload"
+          app_location: "src/frontend"  # App source code path
+          api_location: ""  # API source code path - optional
+          output_location: "."  # Built app content directory - optional
+          github_id_token: ${{ steps.idtoken.outputs.result }}
+
+  lighthouse:
+    needs: build_and_deploy_job  # Exécuter Lighthouse après le build
+    runs-on: ubuntu-latest
+    name: Lighthouse CI Audit
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Lighthouse CI with Assertions
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://todoapp.axellehertig.emf-informatique.ch
+          uploadArtifacts: true  # Enregistrer les résultats comme artefacts
+          temporaryPublicStorage: true  # Héberger temporairement le rapport Lighthouse
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        configPath: './lighthouserc.json'
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_BUSH_0DE49B503 }}
+          action: "close"
