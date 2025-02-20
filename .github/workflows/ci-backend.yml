@@ -1,5 +1,5 @@
 
-name: ci-backend 2
+name: ci-backend-2
  
 on:
   push:
