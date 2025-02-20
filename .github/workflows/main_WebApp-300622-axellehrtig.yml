@@ -29,9 +29,10 @@ jobs:
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
+        context: ./src/backend
         push: true
         tags: acr300622210.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_55b1d73b358644c7aa6c3439d925a63f }}/todo-app:${{ github.sha }}
-        file: ./Dockerfile
+        file: src/backend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
