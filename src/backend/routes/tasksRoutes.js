@@ -5,8 +5,20 @@ let express = require("express"),
     db = require('../db');
 
 // GET 
+router.get("/", async (req, res, next) => {
+    let conn;
+    try {
+        const result = await db.pool.query("select * from tasks");
+        res.send(result);
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) return conn.release();
+    }
+});
+
 router.get("/test", async (req, res, next) => {
-    res.render("test");
+res.send("test");
 });
 
 // POST 
