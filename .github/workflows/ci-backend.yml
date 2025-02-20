@@ -14,7 +14,11 @@ jobs:
   build_connect_push:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Go to backend folder
+        run: cd ./src/backend && ls -l
 
       - name: Go to backend folder and build the image
         run: cd ./src/backend && docker build -t todo-app .
