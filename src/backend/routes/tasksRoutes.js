@@ -6,7 +6,7 @@ let express = require("express"),
 
 // GET 
 router.get("/test", async (req, res, next) => {
-    res.send("test");
+    res.render("test");
 });
 
 // POST 
