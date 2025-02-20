@@ -35,7 +35,7 @@ jobs:
       
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
-        with
+        with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           images: ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
 
@@ -44,4 +44,3 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
