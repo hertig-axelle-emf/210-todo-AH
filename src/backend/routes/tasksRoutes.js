@@ -6,15 +6,7 @@ let express = require("express"),
 
 // GET 
 router.get("/test", async (req, res, next) => {
-    let conn;
-    try {
-        const result = await db.pool.query("select * from tasks");
-        res.send(result);
-    } catch (err) {
-        throw err;
-    } finally {
-        if (conn) return conn.release();
-    }
+    res.send("Webapp Azure");
 });
 
 // POST 
